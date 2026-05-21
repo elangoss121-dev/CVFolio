@@ -1,19 +1,83 @@
-‣噃潆楬൯ഊ䄊挠浯牰桥湥楳敶映汵⵬瑳捡⁫汰瑡潦浲映牯挠敲瑡湩⁧䥁漭瑰浩穩摥爠獥浵獥愠摮瀠潲敦獳潩慮⁬潰瑲潦楬獯眠瑩⁨敇業楮䄠䥐椠瑮来慲楴湯മഊ⌊‣敔档匠慴正਍਍⌣‣牆湯整摮਍‭敎瑸樮⁳㐱㈮㔮਍‭敒捡⁴㠱㌮ㄮ਍‭祔数捓楲瑰਍‭慔汩楷摮䌠卓਍‭牆浡牥䴠瑯潩⁮愨楮慭楴湯⥳਍‭硁潩൳ഊ⌊⌣䈠捡敫摮਍‭潎敤樮൳ⴊ䔠灸敲獳樮൳ⴊ䴠湯潧䉄眠瑩⁨潍杮潯敳਍‭畍瑬牥⠠楦敬甠汰慯獤ഩⴊ䜠潯汧⁥敇業楮䄠䥐਍਍⌣倠潲敪瑣匠牴捵畴敲਍਍恠ൠ⼊汣敩瑮†††††††††††††‣敎瑸樮⁳牆湯整摮਍†愯灰†††††††††††††‣灁⁰慰敧൳ †⼠慰敧琮硳†††††††††⌠䠠浯⁥慰敧਍††爯獥浵ⵥ畢汩敤⽲慰敧琮硳††‣敒畳敭戠極摬牥਍††瀯牯晴汯潩戭極摬牥瀯条⹥獴⁸‣潐瑲潦楬⁯畢汩敤൲ ⼠潣灭湯湥獴†††††††††⌠删慥瑣挠浯潰敮瑮൳ ⼠敳癲捩獥††††††††††⌠䄠䥐挠楬湥獴☠甠楴楬楴獥਍†琯浥汰瑡獥††††††††††‣敒畳敭☠倠牯晴汯潩琠浥汰瑡獥਍਍猯牥敶⁲††††††††††††‣硅牰獥⁳慂正湥൤ ⼠潭敤獬†††††††††††⌠䴠湯潧䉄猠档浥獡⠠獕牥‬敒畳敭‬潐瑲潦楬Ɐ吠浥汰瑡⥥਍†振湯牴汯敬獲†††††††††‣畂楳敮獳氠杯捩⠠獵牥ⱳ爠獥浵獥‬潰瑲潦楬獯‬䥁‬灵潬摡⥳਍†爯畯整⁳†††††††††††‣偁⁉潲瑵⁥敤楦楮楴湯൳ ⼠業摤敬慷敲†††††††††⌠䄠瑵ⱨ瘠污摩瑡潩Ɱ攠牲牯栠湡汤湩൧ ⼠湩敤⹸獪††††††††††⌠匠牥敶⁲湥牴⁹潰湩൴怊恠਍਍⌣匠瑥灵䤠獮牴捵楴湯൳ഊ⌊⌣倠敲敲畱獩瑩獥਍‭潎敤樮⁳㘱‫湡⁤灮൭ⴊ䴠湯潧䉄⠠潬慣⁬牯䄠汴獡ഩⴊ䜠潯汧⁥敇業楮䄠䥐欠祥਍਍⌣‣⸱䌠潬敮☠䤠獮慴汬䐠灥湥敤据敩൳ഊ怊恠慢桳਍‣湉瑳污⁬汣敩瑮搠灥湥敤据敩൳挊⁤搢尺敒畳敭䴠歡牥捜楬湥≴਍灮⁭湩瑳污൬ഊ⌊䤠獮慴汬猠牥敶⁲敤数摮湥楣獥਍摣∠⸮猯牥敶≲਍灮⁭湩瑳污൬怊恠਍਍⌣‣⸲䔠癮物湯敭瑮䌠湯楦畧慲楴湯਍਍牃慥整怠攮癮⁠楦敬椠⁮桴⁥敳癲牥搠物捥潴祲ഺഊ怊恠湥൶倊剏㵔〴〰਍位䝎䑏彂剕㵉潭杮摯㩢⼯潬慣桬獯㩴㜲㄰⼷敲畳敭灟牯晴汯潩਍䕇䥍䥎䅟䥐䭟奅礽畯彲敧業楮慟楰歟祥桟牥൥怊恠਍਍⌣‣⸳匠慴瑲䐠癥汥灯敭瑮匠牥敶獲਍਍⨪敔浲湩污ㄠⴠ䈠捡敫摮⨺പ怊恠慢桳਍摣∠㩤剜獥浵⁥慍敫屲敳癲牥ഢ渊浰爠湵搠癥਍恠ൠഊ⨊吪牥業慮⁬′‭牆湯整摮⨺പ怊恠慢桳਍摣∠㩤剜獥浵⁥慍敫屲汣敩瑮ഢ渊浰爠湵搠癥਍恠ൠഊ䘊潲瑮湥⁤畲獮漠⁮桠瑴㩰⼯潬慣桬獯㩴〳〰ൠ䈊捡敫摮爠湵⁳湯怠瑨灴⼺氯捯污潨瑳㐺〰怰਍਍⌣䄠䥐䔠摮潰湩獴਍਍⌣‣獕牥䴠湡条浥湥൴ⴊ怠佐呓⼠灡⽩獵牥恳ⴠ䌠敲瑡⁥獵牥਍‭䝠呅⼠灡⽩獵牥⽳椺恤ⴠ䜠瑥甠敳൲ⴊ怠啐⁔愯楰甯敳獲㨯摩⁠‭灕慤整甠敳൲ⴊ怠䕄䕌䕔⼠灡⽩獵牥⽳椺恤ⴠ䐠汥瑥⁥獵牥਍਍⌣‣敒畳敭䈠極摬牥਍‭偠协⁔愯楰爯獥浵獥⁠‭牃慥整爠獥浵൥ⴊ怠䕇⁔愯楰爯獥浵獥甯敳⽲町敳䥲恤ⴠ䜠瑥甠敳❲⁳敲畳敭൳ⴊ怠䕇⁔愯楰爯獥浵獥㨯摩⁠‭敇⁴敲畳敭਍‭偠呕⼠灡⽩敲畳敭⽳椺恤ⴠ唠摰瑡⁥敲畳敭਍‭䑠䱅呅⁅愯楰爯獥浵獥㨯摩⁠‭敄敬整爠獥浵൥ⴊ怠佐呓⼠灡⽩敲畳敭⽳椺⽤異汢獩恨ⴠ倠扵楬桳爠獥浵൥ഊ⌊⌣倠牯晴汯潩䈠極摬牥਍‭偠协⁔愯楰瀯牯晴汯潩恳ⴠ䌠敲瑡⁥潰瑲潦楬൯ⴊ怠䕇⁔愯楰瀯牯晴汯潩⽳獵牥㨯獵牥摉⁠‭敇⁴潰瑲潦楬൯ⴊ怠䕇⁔愯楰瀯牯晴汯潩⽳猺畬恧ⴠ䜠瑥瀠扵楬⁣潰瑲潦楬൯ⴊ怠啐⁔愯楰瀯牯晴汯潩⽳椺恤ⴠ唠摰瑡⁥潰瑲潦楬൯ⴊ怠䕄䕌䕔⼠灡⽩潰瑲潦楬獯㨯摩⁠‭敄敬整瀠牯晴汯潩਍‭偠协⁔愯楰瀯牯晴汯潩⽳椺⽤異汢獩恨ⴠ倠扵楬桳瀠牯晴汯潩਍਍⌣‣䥁☠䜠浥湩൩ⴊ怠佐呓⼠灡⽩敧業楮漯瑰浩穩恥ⴠ传瑰浩穩⁥敲畳敭琠硥൴ⴊ怠佐呓⼠灡⽩敧業楮瀯牯晴汯潩⁠‭敇敮慲整瀠牯晴汯潩挠湯整瑮਍਍⌣‣楆敬唠汰慯൤ⴊ怠佐呓⼠灡⽩灵潬摡椯慭敧⁠‭灕潬摡瀠潲楦敬椠慭敧⠠慭⁸㔱䉍ഩഊ⌊‣敆瑡牵獥਍਍鳢₅⨪敒畳敭䈠極摬牥⨪਍‭潃汬捥⁴獵牥搠瑥楡獬⠠慮敭‬浥楡ⱬ瀠潨敮‬歳汩獬‬摥捵瑡潩Ɱ攠灸牥敩据ⱥ瀠潲敪瑣⥳਍‭䥁瀭睯牥摥琠硥⁴灯楴業慺楴湯甠楳杮䜠浥湩൩ⴊ㔠⬰瀠潲敦獳潩慮⁬整灭慬整൳ⴊ倠䙄䐯䍏⁘潤湷潬摡਍‭桓牡⁥楶⁡楬歮਍‭呁⁓捳牯⁥慣捬汵瑡潩൮ഊ薜⨠倪牯晴汯潩䈠極摬牥⨪਍‭牐景獥楳湯污瀠牯晴汯潩眠扥楳整朠湥牥瑡潩൮ⴊ䐠湹浡捩氠湩⁫慨摮楬杮⠠楇䡴扵‬楌歮摥湉‬睔瑩整Ⱳ䤠獮慴牧浡‬浅楡⥬਍‭畍瑬灩敬琠敨敭⁳氨杩瑨搯牡⥫਍‭敓瑣潩獮›效潲‬扁畯ⱴ匠楫汬ⱳ倠潲敪瑣ⱳ删獥浵ⱥ䌠湯慴瑣਍‭畐汢捩瀠牯晴汯潩瀠条獥眠瑩⁨湵煩敵猠畬獧਍਍鳢₅⨪䥁䘠慥畴敲⩳പⴊ䄠協昭楲湥汤⁹敲畳敭漠瑰浩穩瑡潩൮ⴊ䜠慲浭牡挠牯敲瑣潩൮ⴊ匠牴湯⁧捡楴湯眠牯獤猠杵敧瑳潩൮ⴊ匠浵慭祲朠湥牥瑡潩൮ⴊ倠潲敪瑣搠獥牣灩楴湯朠湥牥瑡潩൮ⴊ䈠潩朠湥牥瑡潩൮ഊ薜⨠䘪汩⁥慍慮敧敭瑮⨪਍‭浉条⁥灵潬摡⠠偊ⱇ倠䝎‬䕗偂ഩⴊㄠ䴵⁂楦敬猠穩⁥楬業൴ⴊ䰠捯污猠潴慲敧⠠硥慰摮扡敬琠⁯汃畯楤慮祲ഩഊ⌊‣慄慴慢敳匠档浥ൡഊ⌊⌣唠敳൲怊恠慪慶捳楲瑰਍ൻ 映汵乬浡ⱥ攠慭汩‬桰湯ⱥ氠湩敫䥤Ɱ朠瑩畨Ɫ瀠牯晴汯潩牕ⱬ愠摤敲獳ബ 搠瑡佥䉦物桴‬歳汩獬‬摥捵瑡潩Ɱ攠灸牥敩据ⱥ瀠潲敪瑣ⱳ挠牥楴楦慣楴湯ⱳ਍†慬杮慵敧ⱳ愠潢瑵‬浩条啥汲‬楴敭瑳浡獰਍ൽ怊恠਍਍⌣‣敒畳敭਍恠橠癡獡牣灩൴笊਍†獵牥摉‬楴汴ⱥ琠浥汰瑡ⱥ猠捥楴湯㩳笠਍††畳浭牡ⱹ攠畤慣楴湯嵛‬硥数楲湥散嵛‬牰橯捥獴嵛‬歳汩獬嵛‬਍††散瑲晩捩瑡潩獮嵛‬慬杮慵敧孳൝ 素‬瑡即潣敲‬獩牄晡ⱴ琠浩獥慴灭൳紊਍恠ൠഊ⌊⌣倠牯晴汯潩਍恠橠癡獡牣灩൴笊਍†獵牥摉‬楴汴ⱥ猠畬Ⱨ戠潩‬桴浥ⱥ猠捥楴湯㩳笠਍††扡畯ⱴ猠楫汬孳ⱝ瀠潲敪瑣孳ⱝ猠捯慩㩬笠਍†††楧桴扵‬楬歮摥湩‬睴瑩整Ⱳ椠獮慴牧浡‬浥楡൬ †素਍†ⱽ爠獥浵䱥湩Ⱬ椠偳扵楬桳摥‬楴敭瑳浡獰਍ൽ怊恠਍਍⌣䘠潲瑮湥⁤敓癲捩獥਍桔⁥牦湯整摮椠据畬敤⁳潲瑵⁥慰敧⁳潦⁲慥档戠極摬牥映潬㩷਍‭⽠⁠‭潈敭愠摮渠癡杩瑡潩൮ⴊ怠爯獥浵恥ⴠ删獥浵⁥畂汩敤൲ⴊ怠瀯牯晴汯潩⁠‭潐瑲潦楬⁯畂汩敤൲ⴊ怠戯瑯恨ⴠ䌠浯楢敮⁤敒畳敭⬠倠牯晴汯潩䈠極摬牥਍⌣‣灡⹩獴਍恠橠癡獡牣灩൴甊敳䅲䥐挮敲瑡⡥Ⱙ甠敳䅲䥐朮瑥⤨‬獵牥偁⹉灵慤整⤨‬獵牥偁⹉敤敬整⤨਍敲畳敭偁⹉牣慥整⤨‬敲畳敭偁⹉敧啴敳割獥浵獥⤨‬敲畳敭偁⹉敧⡴Ⱙ攠捴മ瀊牯晴汯潩偁⹉牣慥整⤨‬潰瑲潦楬䅯䥐朮瑥獕牥潐瑲潦楬⡯Ⱙ攠捴മ愊䅩䥐漮瑰浩穩呥硥⡴Ⱙ愠䅩䥐朮湥牥瑡健牯晴汯潩敔瑸⤨਍灵潬摡偁⹉灵潬摡浉条⡥ഩ怊恠਍਍⌣‣慶楬慤潴獲琮൳怊恠慪慶捳楲瑰਍慶楬慤整浅楡⡬Ⱙ瘠污摩瑡健潨敮⤨‬慶楬慤整牕⡬Ⱙ਍慶楬慤整浉条卥穩⡥Ⱙ瘠污摩瑡䥥慭敧祔数⤨‬潦浲瑡楆敬楓敺⤨਍恠ൠഊ⌊⌣瀠潲灭獴琮൳怊恠慪慶捳楲瑰਍䕇䥍䥎偟佒偍協ⴠ倠敲戭極瑬瀠潲灭獴映牯愠汬䄠⁉敦瑡牵獥਍牣慥整敒畳敭牐浯瑰⤨ⴠ䌠獵潴⁭牰浯瑰朠湥牥瑡牯਍恠ൠഊ⌊‣敄汰祯敭瑮਍਍⌣‣牆湯整摮⠠敖捲汥ഩ怊恠慢桳਍摣挠楬湥൴瘊牥散⁬敤汰祯਍恠ൠഊ⌊⌣䈠捡敫摮⠠敒摮牥ഩ怊恠慢桳਍‣畐桳琠⁯楇䡴扵愠摮挠湯敮瑣琠⁯敒摮牥਍‣敓⁴湥楶潲浮湥⁴慶楲扡敬⁳湩删湥敤⁲慤桳潢牡൤怊恠਍਍⌣‣慄慴慢敳⠠潍杮䑯⁂瑁慬⥳਍‭牃慥整挠畬瑳牥漠⁮瑁慬൳ⴊ唠摰瑡⁥位䝎䑏彂剕⁉湩⸠湥൶ഊ⌊‣敎瑸匠整獰਍਍⸱䌠敲瑡⁥敲畳敭☠瀠牯晴汯潩琠浥汰瑡獥਍⸲䄠摤愠瑵敨瑮捩瑡潩⁮祳瑳浥਍⸳䤠灭敬敭瑮瀠祡敭瑮映牯瀠敲業浵琠浥汰瑡獥਍⸴䄠摤爠獥浵⁥牰癥敩⽷䑐⁆硥潰瑲਍⸵䤠灭敬敭瑮猠慨楲杮☠挠汯慬潢慲楴湯映慥畴敲൳㘊‮摁⁤潰瑲潦楬⁯湡污瑹捩൳㜊‮敓⁴灵攠慭汩渠瑯晩捩瑡潩獮਍਍⌣匠捥牵瑩⁹潎整൳ഊꂚ룯₏⨪浉潰瑲湡㩴⨪਍‭敇業楮䄠䥐欠祥椠⁳䕎䕖⁒硥潰敳⁤湩映潲瑮湥൤ⴊ䄠汬䄠䥐挠污獬朠⁯桴潲杵⁨慢正湥൤ⴊ唠敳攠癮物湯敭瑮瘠牡慩汢獥映牯猠湥楳楴敶搠瑡ൡⴊ䤠灭敬敭瑮愠瑵敨瑮捩瑡潩⁮敢潦敲瀠潲畤瑣潩൮ⴊ嘠污摩瑡⁥污⁬楦敬甠汰慯獤漠⁮慢正湥൤ഊ⌊‣潃瑮楲畢楴杮਍਍敆汥映敲⁥潴猠扵業⁴獩畳獥愠摮瀠汵⁬敲畱獥獴ഡഊ⌊‣楌散獮൥ഊ䴊呉䰠捩湥敳ⴠ映敥⁬牦敥琠⁯獵⁥桴獩瀠潲敪瑣਍# CVFolio਍ഀ
+﻿# CVFolio
 
-## Contributing
+CVFolio is a full-stack resume and portfolio builder that uses AI-powered content generation, resume optimization, and portfolio page creation. It includes a React/Next.js frontend, an Express.js backend, image uploads, and optional MongoDB persistence with an in-memory fallback.
 
-Feel free to submit issues and pull requests!
+## Features
 
-## GitHub CI
+- Create and manage resumes with AI-enhanced summaries and descriptions.
+- Build professional portfolio pages with user profile and project details.
+- Upload profile images for portfolio use.
+- Integrate with Google Gemini for text optimization and portfolio content generation.
+- Fallback storage when MongoDB is not configured.
+- GitHub Actions CI workflow for build validation.
 
-This project includes a GitHub Actions workflow at .github/workflows/ci.yml that:
+## Tech Stack
 
-- installs server and client dependencies
-- builds the Next.js frontend
-- lints the frontend code
+- Frontend: Next.js 14, React, TypeScript, Tailwind CSS
+- Backend: Node.js, Express, MongoDB/Mongoose, Multer, dotenv
+- AI Integration: Google Gemini via @google/generative-ai
+- Deployment: GitHub Actions
 
-To enable it, push this repository to GitHub and merge changes into main.
+## Getting Started
+
+### 1. Install dependencies
+
+```bash
+cd client
+npm install
+cd ../server
+npm install
+```
+
+### 2. Configure environment
+
+Copy `server/.env.example` to `server/.env` and add your settings:
+
+```env
+PORT=4000
+MONGODB_URI=mongodb://localhost:27017/resume_portfolio
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+If MongoDB is not available, the backend will start with in-memory fallback storage.
+
+### 3. Run the application
+
+Start the backend:
+
+```bash
+cd server
+npm start
+```
+
+Start the frontend:
+
+```bash
+cd ../client
+npm run dev
+```
+
+Open http://localhost:3000 in your browser.
+
+## GitHub Deployment
+
+This repository includes a GitHub Actions workflow at `.github/workflows/ci.yml`.
+The workflow installs server and client dependencies, builds the frontend, and lints the frontend code on every push or pull request to the `main` branch.
+
+## API Endpoints
+
+- `GET /` - backend health check
+- `POST /api/users` - create a user
+- `POST /api/resumes` - create a resume
+- `POST /api/portfolios` - create a portfolio
+- `POST /api/gemini/optimize` - optimize resume text with Gemini AI
+- `POST /api/gemini/portfolio` - generate portfolio content with Gemini AI
+
+## Notes
+
+- Keep your `GEMINI_API_KEY` secret and do not expose it in frontend code.
+- Use environment variables for credentials and database URIs.
 
 ## License
 
-MIT License - feel free to use this project
+MIT License
