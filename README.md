@@ -64,6 +64,22 @@ Open http://localhost:3000 in your browser.
 This repository includes a GitHub Actions workflow at `.github/workflows/ci.yml`.
 The workflow installs server and client dependencies, builds the frontend, and lints the frontend code on every push or pull request to the `main` branch.
 
+## Vercel Deployment
+
+This app can be deployed to Vercel using the `client` Next.js app.
+
+1. Import the repository into Vercel.
+2. Set the project root to `client` if prompted.
+3. Configure the environment variable for the backend API:
+
+```env
+NEXT_PUBLIC_API_URL=https://your-backend-url.com/api
+```
+
+4. Add the backend `GEMINI_API_KEY` to Vercel only if you deploy the backend there or add it to the backend host provider.
+
+If you are hosting only the frontend on Vercel, deploy the backend separately and point `NEXT_PUBLIC_API_URL` to that backend.
+
 ## API Endpoints
 
 - `GET /` - backend health check
