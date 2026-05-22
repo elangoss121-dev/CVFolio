@@ -21,8 +21,7 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'none'
-          package-manager-cache: false
+
 
       - name: Cache server dependencies
         uses: actions/cache@v3

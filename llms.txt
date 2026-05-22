@@ -1,0 +1,70 @@
+# CVFolio - AI-Powered Resume & Portfolio Builder
+
+CVFolio is a full-stack web application designed to help users create ATS-friendly resumes and professional portfolio websites. It leverages Google Gemini AI for smart content optimization and portfolio bio generation.
+
+## Codebase Architecture
+
+The project is structured as a monorepo containing two main parts:
+- `/client`: React frontend built using Next.js 14, TypeScript, and Tailwind CSS.
+- `/server`: Node.js and Express backend with Mongoose/MongoDB for data persistence and a built-in in-memory fallback.
+
+## Documentation Index
+
+- [NOT_FOUND](/docs/errors/not_found.md): Troubleshooting guide for generic 404/Not Found routing errors.
+- [RESOURCE_NOT_FOUND](/docs/errors/resource_not_found.md): Details and troubleshooting steps for specific database resource misses (Users, Resumes, Portfolios).
+
+## Key Features
+
+- **Resume Builder**: ATS-friendly templates, custom sections, and automated optimization.
+- **Portfolio Builder**: Dynamic portfolio website pages generated from user profiles, complete with custom slugs and themes.
+- **Gemini AI Integration**: Real-time resume text optimization and professional portfolio bio generation using `@google/generative-ai`.
+- **Image Uploads**: Profile picture and project asset uploads handled via Multer middleware.
+- **Flexible Storage**: Seamless database operations using MongoDB/Mongoose with automatic in-memory fallback if no database is connected.
+
+## Directory Structure
+
+```
+d:/Resume Maker/
+├── client/                     # Frontend Next.js application
+│   ├── app/                    # Next.js App Router pages (Home, Resume, Portfolio, Both)
+│   ├── components/             # Reusable UI components (Forms, Cards, Logo)
+│   └── services/               # API clients, validators, and prompt engineering utilities
+├── server/                     # Backend Express.js application
+│   ├── config/                 # Database configuration
+│   ├── controllers/            # Request handlers (User, Resume, Portfolio, AI, Upload)
+│   ├── data/                   # In-memory store fallback logic
+│   ├── middleware/             # Validation and error handling middlewares
+│   ├── models/                 # Mongoose schemas (User, Resume, Portfolio, Template)
+│   └── routes/                 # Express route definitions
+└── vercel.json                 # Vercel deployment configuration
+```
+
+## API Endpoint Reference
+
+### User Routes
+- `POST /api/users` - Create a new user profile
+- `GET /api/users/:id` - Fetch user details by ID
+- `GET /api/users?email=...` - Find user details by email
+- `PUT /api/users/:id` - Update user profile details
+- `DELETE /api/users/:id` - Delete a user profile
+
+### Resume Routes
+- `POST /api/resumes` - Create a new resume
+- `GET /api/resumes/user/:userId` - Fetch all resumes for a specific user
+- `GET /api/resumes/:id` - Get resume details by ID
+- `PUT /api/resumes/:id` - Update resume content
+- `DELETE /api/resumes/:id` - Delete a resume
+- `POST /api/resumes/:id/publish` - Mark a resume as published (non-draft)
+
+### Portfolio Routes
+- `POST /api/portfolios` - Create a new portfolio page
+- `GET /api/portfolios/user/:userId` - Get a user's portfolio configuration
+- `GET /api/portfolios/:slug` - Fetch a published portfolio by its slug
+- `PUT /api/portfolios/:id` - Update portfolio details
+- `DELETE /api/portfolios/:id` - Delete a portfolio
+- `POST /api/portfolios/:id/publish` - Make a portfolio page public
+
+### Gemini AI & Upload Routes
+- `POST /api/gemini/optimize` - Optimize resume text using Google Gemini
+- `POST /api/gemini/portfolio` - Generate professional portfolio content using Google Gemini
+- `POST /api/upload/image` - Upload profile image (returns public image URL)

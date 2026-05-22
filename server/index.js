@@ -35,8 +35,17 @@ async function start() {
       console.warn('No MongoDB URI configured. Running with in-memory fallback store.');
     }
 
-    app.listen(port, () => {
+    const server = app.listen(port, () => {
       console.log(`Server listening on http://localhost:${port}`);
+    });
+
+    server.on('error', (error) => {
+      if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${port} is already in use. Please stop the process using this port or change PORT.`);
+      } else {
+        console.error('Server error', error);
+      }
+      process.exit(1);
     });
   } catch (error) {
     console.error('Failed to start server', error);
