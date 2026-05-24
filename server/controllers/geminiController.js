@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const apiKey = process.env.GEMINI_API_KEY;
-const client = new GoogleGenerativeAI({ apiKey });
+const client = new GoogleGenerativeAI(apiKey);
 const modelName = 'gemini-1.5-flash';
 
 async function generateFromPrompt(prompt) {

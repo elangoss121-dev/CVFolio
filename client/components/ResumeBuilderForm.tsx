@@ -38,6 +38,7 @@ export default function ResumeBuilderForm() {
   const [statusMessage, setStatusMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
   const { user } = useGoogleAuth();
 
   const skillsArray = useMemo(
@@ -187,18 +188,40 @@ export default function ResumeBuilderForm() {
     }
   };
 
-  const handleDownloadPdf = async () => {
+  const suggestFieldWithAI = async (fieldName: 'experience' | 'education' | 'projects') => {
+    const currentValue = form[fieldName];
+    if (!currentValue.trim()) {
+      setStatusMessage(`Please write a draft or some keywords in the ${fieldName} field first so AI can suggest details.`);
+      return;
+    }
+
+    setStatusMessage(`Generating professional suggestions for ${fieldName} using Gemini AI...`);
+    try {
+      const response = await aiAPI.optimizeText(currentValue);
+      const suggestedText = response.data.optimizedText;
+      if (suggestedText) {
+        setForm(prev => ({ ...prev, [fieldName]: suggestedText }));
+        setStatusMessage(`${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} suggestions populated successfully!`);
+      }
+    } catch (error) {
+      setStatusMessage(`Failed to generate suggestions for ${fieldName}.`);
+    }
+  };
+
+  const handleDownload = async (format: 'pdf' | 'jpg') => {
     if (!form.fullName.trim()) {
       setStatusMessage('Please enter your Full Name first.');
       return;
     }
 
     setIsDownloading(true);
-    setStatusMessage('Generating PDF...');
+    setStatusMessage(`Generating ${format.toUpperCase()}...`);
 
     try {
       // @ts-ignore
       const html2pdf = (await import('html2pdf.js')).default;
+      // @ts-ignore
+      const html2canvas = (await import('html2canvas')).default;
 
       // Extract skills
       const skillsList = form.skills.split(',').map(s => s.trim()).filter(Boolean);
@@ -496,31 +519,49 @@ export default function ResumeBuilderForm() {
       // Create a temporary element to hold the resume content
       const container = document.createElement('div');
       container.style.position = 'absolute';
-      container.style.left = '-9999px';
+      container.style.left = '0';
       container.style.top = '0';
       container.style.width = '800px';
+      container.style.zIndex = '-9999';
       container.style.backgroundColor = '#ffffff';
+      container.style.color = '#1e293b';
       container.innerHTML = templateContent;
       document.body.appendChild(container);
 
-      // PDF options
-      const opt = {
-        margin: 0,
-        filename: `${form.fullName.replace(/\s+/g, '_')}_Resume.pdf`,
-        image: { type: 'jpeg' as const, quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true, logging: false },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
-      };
+      if (format === 'pdf') {
+        // PDF options
+        const opt = {
+          margin: 0,
+          filename: `${form.fullName.replace(/\s+/g, '_')}_Resume.pdf`,
+          image: { type: 'jpeg' as const, quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, logging: false, scrollX: 0, scrollY: 0 },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
+        };
 
-      // Generate the PDF
-      await html2pdf().set(opt).from(container).save();
+        // Generate the PDF
+        await html2pdf().set(opt).from(container).save();
+      } else {
+        // Generate JPG image via html2canvas
+        const canvas = await html2canvas(container, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          scrollX: 0,
+          scrollY: 0
+        });
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.98);
+        const link = document.createElement('a');
+        link.download = `${form.fullName.replace(/\s+/g, '_')}_Resume.jpg`;
+        link.href = dataUrl;
+        link.click();
+      }
 
       // Clean up
       document.body.removeChild(container);
-      setStatusMessage('PDF generated and downloaded successfully!');
+      setStatusMessage(`${format.toUpperCase()} generated and downloaded successfully!`);
     } catch (error) {
       console.error(error);
-      setStatusMessage('Failed to download PDF. Please try again.');
+      setStatusMessage(`Failed to download ${format.toUpperCase()}. Please try again.`);
     } finally {
       setIsDownloading(false);
     }
@@ -598,6 +639,13 @@ export default function ResumeBuilderForm() {
                   placeholder="Company, role, timeframe, achievements..."
                 />
               </label>
+              <button
+                type="button"
+                onClick={() => suggestFieldWithAI('experience')}
+                className="mt-2 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/5 px-4 py-2 text-xs font-semibold text-cyan-400 transition hover:border-cyan-500 hover:bg-cyan-500/10"
+              >
+                ✨ Suggest details with Gemini AI
+              </button>
               <label className="block text-sm text-slate-300">
                 <span className="text-slate-100">Education</span>
                 <textarea
@@ -609,6 +657,13 @@ export default function ResumeBuilderForm() {
                   placeholder="School, degree, year, highlights..."
                 />
               </label>
+              <button
+                type="button"
+                onClick={() => suggestFieldWithAI('education')}
+                className="mt-2 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/5 px-4 py-2 text-xs font-semibold text-cyan-400 transition hover:border-cyan-500 hover:bg-cyan-500/10"
+              >
+                ✨ Suggest details with Gemini AI
+              </button>
             </div>
           </div>
 
@@ -626,6 +681,13 @@ export default function ResumeBuilderForm() {
                   placeholder="Project title, tech stack, outcome..."
                 />
               </label>
+              <button
+                type="button"
+                onClick={() => suggestFieldWithAI('projects')}
+                className="mt-2 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/5 px-4 py-2 text-xs font-semibold text-cyan-400 transition hover:border-cyan-500 hover:bg-cyan-500/10"
+              >
+                ✨ Suggest details with Gemini AI
+              </button>
               <label className="block text-sm text-slate-300">
                 <span className="text-slate-100">About / Summary</span>
                 <textarea
@@ -658,10 +720,10 @@ export default function ResumeBuilderForm() {
             <button
               type="button"
               disabled={isDownloading}
-              onClick={handleDownloadPdf}
+              onClick={() => setShowDownloadModal(true)}
               className="rounded-full border border-slate-700 px-6 py-3 text-slate-100 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {isDownloading ? 'Generating PDF...' : 'Download PDF'}
+              {isDownloading ? 'Exporting...' : 'Export Resume'}
             </button>
           </div>
           {statusMessage && <p className="text-sm text-slate-300">{statusMessage}</p>}
@@ -712,6 +774,60 @@ export default function ResumeBuilderForm() {
           </div>
         </aside>
       </form>
+
+      {/* Export Format Selector Modal */}
+      {showDownloadModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900 p-8 shadow-2xl shadow-slate-950/50">
+            <h3 className="text-2xl font-bold text-white text-center">Export Resume</h3>
+            <p className="mt-2 text-sm text-slate-400 text-center">Choose your preferred download format</p>
+            
+            <div className="mt-6 grid gap-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowDownloadModal(false);
+                  handleDownload('pdf');
+                }}
+                className="flex items-center gap-4 rounded-2xl border border-slate-800 bg-slate-950 p-4 text-left transition hover:border-cyan-500 hover:bg-cyan-500/5 group"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 text-xl text-cyan-400 group-hover:bg-cyan-500/20">
+                  📄
+                </div>
+                <div>
+                  <p className="font-semibold text-white">Download as PDF</p>
+                  <p className="text-xs text-slate-400">High quality vector, best for job applications</p>
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowDownloadModal(false);
+                  handleDownload('jpg');
+                }}
+                className="flex items-center gap-4 rounded-2xl border border-slate-800 bg-slate-950 p-4 text-left transition hover:border-cyan-500 hover:bg-cyan-500/5 group"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/10 text-xl text-cyan-400 group-hover:bg-cyan-500/20">
+                  🖼️
+                </div>
+                <div>
+                  <p className="font-semibold text-white">Download as JPG</p>
+                  <p className="text-xs text-slate-400">High resolution image, best for visual sharing</p>
+                </div>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowDownloadModal(false)}
+              className="mt-6 w-full rounded-full border border-slate-700 py-3 text-sm font-semibold text-slate-300 transition hover:border-slate-500 hover:text-white"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
