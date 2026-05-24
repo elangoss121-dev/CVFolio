@@ -36,6 +36,7 @@ export default function ResumeBuilderForm() {
   const [optimizedText, setOptimizedText] = useState('');
   const [statusMessage, setStatusMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const skillsArray = useMemo(
     () => form.skills.split(',').map((skill) => skill.trim()).filter(Boolean),
@@ -160,6 +161,345 @@ export default function ResumeBuilderForm() {
       setStatusMessage('Unable to save resume data at this time.');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    if (!form.fullName.trim()) {
+      setStatusMessage('Please enter your Full Name first.');
+      return;
+    }
+
+    setIsDownloading(true);
+    setStatusMessage('Generating PDF...');
+
+    try {
+      // @ts-ignore
+      const html2pdf = (await import('html2pdf.js')).default;
+
+      // Extract skills
+      const skillsList = form.skills.split(',').map(s => s.trim()).filter(Boolean);
+      const summaryText = optimizedText || form.about;
+
+      // Generate base image src if exists
+      let finalImageSrc = previewUrl;
+      if (!finalImageSrc && imageUrl) {
+        const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api';
+        const serverBase = apiBase.replace('/api', '');
+        finalImageSrc = imageUrl.startsWith('http') ? imageUrl : `${serverBase}/${imageUrl}`;
+      }
+
+      // Format text blocks to html lists or paragraphs
+      const formatSectionText = (text: string) => {
+        if (!text) return '<p style="color: #64748b; font-style: italic;">Not specified</p>';
+        return text
+          .split('\n')
+          .map(line => line.trim())
+          .filter(Boolean)
+          .map(line => {
+            if (line.startsWith('-') || line.startsWith('*')) {
+              return `<li style="margin-bottom: 6px; list-style-type: disc; margin-left: 20px; line-height: 1.5; color: #334155;">${line.substring(1).trim()}</li>`;
+            }
+            return `<p style="margin-bottom: 8px; line-height: 1.5; color: #334155;">${line}</p>`;
+          })
+          .join('');
+      };
+
+      // Styles and layout based on selected template
+      let templateContent = '';
+
+      if (selectedTemplate === 'Modern') {
+        templateContent = `
+          <div style="font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; color: #1e293b; background: white; font-size: 14px; box-sizing: border-box;">
+            <!-- Header -->
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+              <div style="flex: 1; padding-right: 20px;">
+                <h1 style="font-size: 32px; font-weight: 800; color: #0f172a; margin: 0; line-height: 1.1; letter-spacing: -0.5px;">${form.fullName}</h1>
+                <p style="font-size: 16px; color: #6366f1; font-weight: 600; margin: 6px 0 15px 0; text-transform: uppercase; letter-spacing: 1px;">Professional Candidate</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 12px 18px; font-size: 13px; color: #475569;">
+                  ${form.email ? `<div><span style="font-weight: 600; color: #0f172a;">Email:</span> ${form.email}</div>` : ''}
+                  ${form.phone ? `<div><span style="font-weight: 600; color: #0f172a;">Phone:</span> ${form.phone}</div>` : ''}
+                  ${form.linkedIn ? `<div><span style="font-weight: 600; color: #0f172a;">LinkedIn:</span> ${form.linkedIn.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                  ${form.github ? `<div><span style="font-weight: 600; color: #0f172a;">GitHub:</span> ${form.github.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                  ${form.portfolioUrl ? `<div><span style="font-weight: 600; color: #0f172a;">Portfolio:</span> ${form.portfolioUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                  ${form.address ? `<div><span style="font-weight: 600; color: #0f172a;">Address:</span> ${form.address}</div>` : ''}
+                </div>
+              </div>
+              ${finalImageSrc ? `
+                <div style="flex-shrink: 0;">
+                  <img src="${finalImageSrc}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #6366f1;" />
+                </div>
+              ` : ''}
+            </div>
+
+            <div style="border-bottom: 2px solid #e2e8f0; margin-bottom: 24px;"></div>
+
+            <!-- About / Summary -->
+            ${summaryText ? `
+              <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 16px; font-weight: 700; color: #0f172a; border-left: 4px solid #6366f1; padding-left: 10px; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 0.5px;">Professional Summary</h2>
+                <div style="color: #334155; line-height: 1.6; font-size: 13.5px;">${summaryText}</div>
+              </div>
+            ` : ''}
+
+            <!-- Skills -->
+            ${skillsList.length ? `
+              <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 16px; font-weight: 700; color: #0f172a; border-left: 4px solid #6366f1; padding-left: 10px; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px;">Core Skills</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  ${skillsList.map(skill => `<span style="background: #f1f5f9; color: #334155; padding: 5px 12px; border-radius: 6px; font-size: 12.5px; font-weight: 500; border: 1px solid #e2e8f0;">${skill}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Experience -->
+            <div style="margin-bottom: 24px;">
+              <h2 style="font-size: 16px; font-weight: 700; color: #0f172a; border-left: 4px solid #6366f1; padding-left: 10px; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px;">Work Experience</h2>
+              <div>${formatSectionText(form.experience)}</div>
+            </div>
+
+            <!-- Education -->
+            <div style="margin-bottom: 24px;">
+              <h2 style="font-size: 16px; font-weight: 700; color: #0f172a; border-left: 4px solid #6366f1; padding-left: 10px; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px;">Education</h2>
+              <div>${formatSectionText(form.education)}</div>
+            </div>
+
+            <!-- Projects -->
+            ${form.projects ? `
+              <div style="margin-bottom: 24px;">
+                <h2 style="font-size: 16px; font-weight: 700; color: #0f172a; border-left: 4px solid #6366f1; padding-left: 10px; margin: 0 0 12px 0; text-transform: uppercase; letter-spacing: 0.5px;">Key Projects</h2>
+                <div>${formatSectionText(form.projects)}</div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      } else if (selectedTemplate === 'Minimal') {
+        templateContent = `
+          <div style="font-family: 'Georgia', serif; padding: 45px; color: #111827; background: white; font-size: 13.5px; box-sizing: border-box;">
+            <!-- Header Centered -->
+            <div style="text-align: center; margin-bottom: 25px;">
+              <h1 style="font-size: 28px; font-weight: 400; color: #000; margin: 0 0 8px 0; letter-spacing: 1px; text-transform: uppercase;">${form.fullName}</h1>
+              <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 14px; font-size: 12px; color: #4b5563; font-family: sans-serif;">
+                ${form.email ? `<div>${form.email}</div>` : ''}
+                ${form.phone ? `<div>• &nbsp; ${form.phone}</div>` : ''}
+                ${form.address ? `<div>• &nbsp; ${form.address}</div>` : ''}
+                ${form.linkedIn ? `<div>• &nbsp; ${form.linkedIn.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                ${form.github ? `<div>• &nbsp; ${form.github.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+              </div>
+            </div>
+
+            <div style="border-bottom: 1px solid #d1d5db; margin-bottom: 20px;"></div>
+
+            <!-- Summary -->
+            ${summaryText ? `
+              <div style="margin-bottom: 20px; text-align: justify; line-height: 1.5;">
+                <p style="margin: 0;">${summaryText}</p>
+              </div>
+            ` : ''}
+
+            <!-- Experience -->
+            <div style="margin-bottom: 22px;">
+              <h2 style="font-size: 13px; font-weight: bold; color: #000; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #e5e7eb; padding-bottom: 3px; margin: 0 0 10px 0; font-family: sans-serif;">Experience</h2>
+              <div style="line-height: 1.5;">${formatSectionText(form.experience)}</div>
+            </div>
+
+            <!-- Education -->
+            <div style="margin-bottom: 22px;">
+              <h2 style="font-size: 13px; font-weight: bold; color: #000; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #e5e7eb; padding-bottom: 3px; margin: 0 0 10px 0; font-family: sans-serif;">Education</h2>
+              <div style="line-height: 1.5;">${formatSectionText(form.education)}</div>
+            </div>
+
+            <!-- Projects -->
+            ${form.projects ? `
+              <div style="margin-bottom: 22px;">
+                <h2 style="font-size: 13px; font-weight: bold; color: #000; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #e5e7eb; padding-bottom: 3px; margin: 0 0 10px 0; font-family: sans-serif;">Projects</h2>
+                <div style="line-height: 1.5;">${formatSectionText(form.projects)}</div>
+              </div>
+            ` : ''}
+
+            <!-- Skills -->
+            ${skillsList.length ? `
+              <div style="margin-bottom: 20px;">
+                <h2 style="font-size: 13px; font-weight: bold; color: #000; text-transform: uppercase; letter-spacing: 1.5px; border-bottom: 1px solid #e5e7eb; padding-bottom: 3px; margin: 0 0 10px 0; font-family: sans-serif;">Skills</h2>
+                <p style="margin: 0; line-height: 1.5; color: #374151;">${skillsList.join(', ')}</p>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      } else if (selectedTemplate === 'Professional') {
+        templateContent = `
+          <div style="font-family: 'Inter', sans-serif; padding: 0; color: #1e293b; background: white; font-size: 13.5px; box-sizing: border-box; display: flex; flex-direction: column; min-height: 100%;">
+            <!-- Blue Navy Top Banner -->
+            <div style="background: #1e3a8a; color: white; padding: 30px 40px; display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h1 style="font-size: 28px; font-weight: 700; margin: 0; color: #ffffff;">${form.fullName}</h1>
+                <p style="font-size: 14px; margin: 5px 0 0 0; color: #93c5fd; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">Executive Candidate</p>
+              </div>
+              ${finalImageSrc ? `
+                <img src="${finalImageSrc}" style="width: 80px; height: 80px; border-radius: 8px; object-fit: cover; border: 2px solid #ffffff;" />
+              ` : ''}
+            </div>
+
+            <!-- Two Column Layout Body -->
+            <div style="display: flex; flex: 1; padding: 30px 40px; gap: 30px;">
+              <!-- Sidebar Left Column (30%) -->
+              <div style="width: 30%; border-right: 1px solid #e2e8f0; padding-right: 20px;">
+                <!-- Contact Info -->
+                <div style="margin-bottom: 25px;">
+                  <h3 style="font-size: 14px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 10px 0; border-bottom: 2px solid #1e3a8a; padding-bottom: 4px;">Contact</h3>
+                  <div style="font-size: 12.5px; color: #475569; display: flex; flex-direction: column; gap: 8px;">
+                    ${form.email ? `<div><strong>Email:</strong><br/>${form.email}</div>` : ''}
+                    ${form.phone ? `<div><strong>Phone:</strong><br/>${form.phone}</div>` : ''}
+                    ${form.linkedIn ? `<div><strong>LinkedIn:</strong><br/>${form.linkedIn.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                    ${form.github ? `<div><strong>GitHub:</strong><br/>${form.github.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                    ${form.portfolioUrl ? `<div><strong>Portfolio:</strong><br/>${form.portfolioUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                    ${form.address ? `<div><strong>Address:</strong><br/>${form.address}</div>` : ''}
+                  </div>
+                </div>
+
+                <!-- Skills -->
+                ${skillsList.length ? `
+                  <div style="margin-bottom: 25px;">
+                    <h3 style="font-size: 14px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 10px 0; border-bottom: 2px solid #1e3a8a; padding-bottom: 4px;">Key Skills</h3>
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                      ${skillsList.map(skill => `<div style="background: #f8fafc; padding: 4px 8px; border-radius: 4px; font-size: 12px; color: #334155; border: 1px solid #f1f5f9; font-weight: 500;">${skill}</div>`).join('')}
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+
+              <!-- Main Right Column (70%) -->
+              <div style="width: 70%;">
+                <!-- Summary -->
+                ${summaryText ? `
+                  <div style="margin-bottom: 25px;">
+                    <h3 style="font-size: 14px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 10px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px;">Executive Summary</h3>
+                    <div style="color: #334155; line-height: 1.5; font-size: 13px;">${summaryText}</div>
+                  </div>
+                ` : ''}
+
+                <!-- Experience -->
+                <div style="margin-bottom: 25px;">
+                  <h3 style="font-size: 14px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 10px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px;">Professional History</h3>
+                  <div style="line-height: 1.5;">${formatSectionText(form.experience)}</div>
+                </div>
+
+                <!-- Education -->
+                <div style="margin-bottom: 25px;">
+                  <h3 style="font-size: 14px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 10px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px;">Education</h3>
+                  <div style="line-height: 1.5;">${formatSectionText(form.education)}</div>
+                </div>
+
+                <!-- Projects -->
+                ${form.projects ? `
+                  <div>
+                    <h3 style="font-size: 14px; font-weight: 700; color: #1e3a8a; text-transform: uppercase; letter-spacing: 0.5px; margin: 0 0 10px 0; border-bottom: 2px solid #e2e8f0; padding-bottom: 4px;">Notable Projects</h3>
+                    <div style="line-height: 1.5;">${formatSectionText(form.projects)}</div>
+                  </div>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      } else { // Creative Template
+        templateContent = `
+          <div style="font-family: 'Outfit', 'Inter', sans-serif; padding: 40px; color: #334155; background: white; font-size: 13.5px; box-sizing: border-box;">
+            <!-- Modern Header with Accent Background banner -->
+            <div style="background: linear-gradient(135deg, #0f172a 0%, #0d9488 100%); color: white; padding: 30px; border-radius: 16px; display: flex; align-items: center; gap: 24px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(13, 148, 136, 0.15);">
+              ${finalImageSrc ? `
+                <img src="${finalImageSrc}" style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255, 255, 255, 0.3);" />
+              ` : ''}
+              <div>
+                <h1 style="font-size: 28px; font-weight: 800; margin: 0; color: #ffffff; letter-spacing: -0.5px;">${form.fullName}</h1>
+                <p style="font-size: 14px; margin: 6px 0 0 0; color: #2dd4bf; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Creative Thinker & Builder</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 12.5px; color: #cbd5e1; margin-top: 10px;">
+                  ${form.email ? `<div>📧 ${form.email}</div>` : ''}
+                  ${form.phone ? `<div>📞 ${form.phone}</div>` : ''}
+                  ${form.linkedIn ? `<div>💼 ${form.linkedIn.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                  ${form.github ? `<div>💻 ${form.github.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                  ${form.portfolioUrl ? `<div>🌐 ${form.portfolioUrl.replace(/^https?:\/\/(www\.)?/, '')}</div>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary -->
+            ${summaryText ? `
+              <div style="margin-bottom: 25px; background: #f0fdfa; border-left: 4px solid #0d9488; padding: 15px 20px; border-radius: 0 12px 12px 0;">
+                <h3 style="font-size: 15px; font-weight: 700; color: #0f172a; margin: 0 0 6px 0; text-transform: uppercase; letter-spacing: 0.5px;">Introduction</h3>
+                <div style="color: #334155; line-height: 1.6; font-size: 13px;">${summaryText}</div>
+              </div>
+            ` : ''}
+
+            <!-- Split Two Columns -->
+            <div style="display: flex; gap: 30px;">
+              <div style="width: 65%;">
+                <!-- Experience -->
+                <div style="margin-bottom: 25px;">
+                  <h3 style="font-size: 15px; font-weight: bold; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px;">Professional Path</h3>
+                  <div style="line-height: 1.5;">${formatSectionText(form.experience)}</div>
+                </div>
+
+                <!-- Projects -->
+                ${form.projects ? `
+                  <div style="margin-bottom: 25px;">
+                    <h3 style="font-size: 15px; font-weight: bold; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px;">Key Work</h3>
+                    <div style="line-height: 1.5;">${formatSectionText(form.projects)}</div>
+                  </div>
+                ` : ''}
+              </div>
+
+              <div style="width: 35%;">
+                <!-- Skills Tags -->
+                ${skillsList.length ? `
+                  <div style="margin-bottom: 25px;">
+                    <h3 style="font-size: 15px; font-weight: bold; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px;">Core Stack</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                      ${skillsList.map(skill => `<span style="background: #ccfbf1; color: #115e59; padding: 4px 10px; border-radius: 9999px; font-size: 11.5px; font-weight: 600; border: 1px solid #99f6e4;">${skill}</span>`).join('')}
+                    </div>
+                  </div>
+                ` : ''}
+
+                <!-- Education -->
+                <div>
+                  <h3 style="font-size: 15px; font-weight: bold; color: #0f172a; margin: 0 0 12px 0; border-bottom: 2px solid #f1f5f9; padding-bottom: 6px;">Education</h3>
+                  <div style="line-height: 1.5; font-size: 12.5px;">${formatSectionText(form.education)}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Create a temporary element to hold the resume content
+      const container = document.createElement('div');
+      container.style.position = 'absolute';
+      container.style.left = '-9999px';
+      container.style.top = '0';
+      container.style.width = '800px';
+      container.style.backgroundColor = '#ffffff';
+      container.innerHTML = templateContent;
+      document.body.appendChild(container);
+
+      // PDF options
+      const opt = {
+        margin: 0,
+        filename: `${form.fullName.replace(/\s+/g, '_')}_Resume.pdf`,
+        image: { type: 'jpeg' as const, quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, logging: false },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' as const }
+      };
+
+      // Generate the PDF
+      await html2pdf().set(opt).from(container).save();
+
+      // Clean up
+      document.body.removeChild(container);
+      setStatusMessage('PDF generated and downloaded successfully!');
+    } catch (error) {
+      console.error(error);
+      setStatusMessage('Failed to download PDF. Please try again.');
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -291,9 +631,11 @@ export default function ResumeBuilderForm() {
             </button>
             <button
               type="button"
-              className="rounded-full border border-slate-700 px-6 py-3 text-slate-100 transition hover:border-cyan-500"
+              disabled={isDownloading}
+              onClick={handleDownloadPdf}
+              className="rounded-full border border-slate-700 px-6 py-3 text-slate-100 transition hover:border-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Download PDF (coming soon)
+              {isDownloading ? 'Generating PDF...' : 'Download PDF'}
             </button>
           </div>
           {statusMessage && <p className="text-sm text-slate-300">{statusMessage}</p>}
