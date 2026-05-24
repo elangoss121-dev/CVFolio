@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { aiAPI, uploadAPI, resumeAPI, userAPI } from '../services/api';
 import { validateEmail, validatePhone, validateImageSize, validateImageType, formatFileSize } from '../services/validators';
+import { useGoogleAuth } from './GoogleAuthContext';
 
 const templates = [
   { name: 'Modern', description: 'Clean, professional layout with bold headings.' },
@@ -37,11 +38,33 @@ export default function ResumeBuilderForm() {
   const [statusMessage, setStatusMessage] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const { user } = useGoogleAuth();
 
   const skillsArray = useMemo(
     () => form.skills.split(',').map((skill) => skill.trim()).filter(Boolean),
     [form.skills]
   );
+
+  useEffect(() => {
+    if (user) {
+      setForm((prev) => ({
+        ...prev,
+        fullName: prev.fullName || user.fullName || '',
+        email: user.email || prev.email || '',
+        phone: prev.phone || user.phone || '',
+        linkedIn: prev.linkedIn || user.linkedIn || '',
+        github: prev.github || user.github || '',
+        portfolioUrl: prev.portfolioUrl || user.portfolioUrl || '',
+        address: prev.address || user.address || '',
+        about: prev.about || user.about || '',
+        skills: prev.skills || (user.skills ? user.skills.join(', ') : ''),
+      }));
+      if (user.imageUrl) {
+        setImageUrl(user.imageUrl);
+        setPreviewUrl(user.imageUrl);
+      }
+    }
+  }, [user]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -540,7 +563,10 @@ export default function ResumeBuilderForm() {
                     type={field.type}
                     value={form[field.name as keyof typeof form]}
                     onChange={handleChange}
-                    className="mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none transition focus:border-cyan-500"
+                    readOnly={field.name === 'email' && !!user}
+                    className={`mt-2 w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none transition focus:border-cyan-500 ${
+                      field.name === 'email' && user ? 'opacity-60 cursor-not-allowed bg-slate-900/60' : ''
+                    }`}
                     placeholder={field.label}
                   />
                 </label>

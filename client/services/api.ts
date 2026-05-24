@@ -51,6 +51,11 @@ export const uploadAPI = {
   },
 };
 
+// Auth API
+export const authAPI = {
+  googleLogin: (token: string) => api.post('/auth/google', { token }),
+};
+
 // Keep legacy functions for compatibility
 export async function optimizeResumeText(text: string) {
   const response = await api.post('/gemini/optimize', { text });

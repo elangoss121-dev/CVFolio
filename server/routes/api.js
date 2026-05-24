@@ -5,6 +5,7 @@ import { createResume, getUserResumes, getResume, updateResume, deleteResume, pu
 import { createPortfolio, getUserPortfolio, getPortfolioBySlug, updatePortfolio, deletePortfolio, publishPortfolio } from '../controllers/portfolioController.js';
 import { uploadImage, uploadMiddleware } from '../controllers/uploadController.js';
 import { validateEmail, validateResume, validatePortfolio } from '../middleware/validation.js';
+import { googleLogin } from '../controllers/authController.js';
 
 const router = express.Router();
 
@@ -37,5 +38,8 @@ router.post('/gemini/portfolio', generatePortfolioText);
 
 // Upload Routes
 router.post('/upload/image', uploadMiddleware.single('image'), uploadImage);
+
+// Auth Routes
+router.post('/auth/google', googleLogin);
 
 export default router;
