@@ -1,0 +1,16 @@
+{
+  "name": "cvfolio",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "start": "npx concurrently \"npm --prefix server start\" \"npm --prefix client run dev\"",
+    "start:prod": "npm --prefix server start & npm --prefix client start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
