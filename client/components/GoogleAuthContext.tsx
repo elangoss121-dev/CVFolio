@@ -29,6 +29,8 @@ interface GoogleAuthContextType {
   renderGoogleButton: (elementId: string) => void;
   triggerGoogleOneTap: () => void;
   mockLogin: (username: string) => Promise<void>;
+  googleClientId: string | null;
+  updateClientId: (newClientId: string | null) => void;
 }
 
 const GoogleAuthContext = createContext<GoogleAuthContextType | undefined>(undefined);
@@ -53,11 +55,16 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const [loading, setLoading] = useState<boolean>(true);
   const [loginError, setLoginError] = useState<string | null>(null);
   const [scriptLoaded, setScriptLoaded] = useState<boolean>(false);
+  const [googleClientId, setGoogleClientId] = useState<string | null>(null);
 
   useEffect(() => {
     const initGsi = async () => {
       const loaded = await loadGoogleScript();
       setScriptLoaded(loaded);
+
+      if (typeof window !== 'undefined') {
+        setGoogleClientId(localStorage.getItem('cvfolio_google_client_id'));
+      }
 
       // Retrieve persistent user from localStorage if available
       const savedUser = localStorage.getItem('cvfolio_user');
@@ -77,7 +84,8 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setLoading(true);
     setLoginError(null);
     try {
-      const res = await authAPI.googleLogin(response.credential);
+      const activeClientId = googleClientId || (typeof window !== 'undefined' ? localStorage.getItem('cvfolio_google_client_id') : null) || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || undefined;
+      const res = await authAPI.googleLogin(response.credential, activeClientId);
       const authenticatedUser = res.data.user;
       setUser(authenticatedUser);
       localStorage.setItem('cvfolio_user', JSON.stringify(authenticatedUser));
@@ -92,8 +100,8 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const renderGoogleButton = (elementId: string) => {
     if (typeof window === 'undefined' || !(window as any).google) return;
 
-    // Use environment variable or fallback to a mock client ID for testing
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '1048556942006-mock-client-id.apps.googleusercontent.com';
+    // Use dynamic client ID or environment variable or fallback to a mock client ID for testing
+    const clientId = googleClientId || (typeof window !== 'undefined' ? localStorage.getItem('cvfolio_google_client_id') : null) || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '1048556942006-mock-client-id.apps.googleusercontent.com';
 
     (window as any).google.accounts.id.initialize({
       client_id: clientId,
@@ -103,6 +111,8 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
 
     const element = document.getElementById(elementId);
     if (element) {
+      // Clear any existing children to prevent multiple buttons rendering on re-initialization
+      element.innerHTML = '';
       (window as any).google.accounts.id.renderButton(element, {
         theme: 'outline',
         size: 'large',
@@ -115,7 +125,7 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const triggerGoogleOneTap = () => {
     if (typeof window === 'undefined' || !(window as any).google || user) return;
 
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    const clientId = googleClientId || (typeof window !== 'undefined' ? localStorage.getItem('cvfolio_google_client_id') : null) || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
     if (!clientId) return; // Only trigger one tap if a real Client ID is provided
 
     (window as any).google.accounts.id.initialize({
@@ -130,7 +140,8 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     setLoginError(null);
     try {
       const mockToken = `mock-google-token-${username.toLowerCase().replace(/\s+/g, '-')}`;
-      const res = await authAPI.googleLogin(mockToken);
+      const activeClientId = googleClientId || (typeof window !== 'undefined' ? localStorage.getItem('cvfolio_google_client_id') : null) || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || undefined;
+      const res = await authAPI.googleLogin(mockToken, activeClientId);
       const authenticatedUser = res.data.user;
       setUser(authenticatedUser);
       localStorage.setItem('cvfolio_user', JSON.stringify(authenticatedUser));
@@ -139,6 +150,18 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       setLoginError('Mock login failed.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const updateClientId = (newClientId: string | null) => {
+    if (typeof window !== 'undefined') {
+      if (newClientId && newClientId.trim()) {
+        localStorage.setItem('cvfolio_google_client_id', newClientId.trim());
+        setGoogleClientId(newClientId.trim());
+      } else {
+        localStorage.removeItem('cvfolio_google_client_id');
+        setGoogleClientId(null);
+      }
     }
   };
 
@@ -157,6 +180,8 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         renderGoogleButton,
         triggerGoogleOneTap,
         mockLogin,
+        googleClientId,
+        updateClientId,
       }}
     >
       {children}

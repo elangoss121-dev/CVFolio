@@ -5,7 +5,7 @@ import { createUser as createUserRecord, findUserByEmail } from '../data/store.j
 
 const client = new OAuth2Client();
 
-async function verifyGoogleToken(token) {
+async function verifyGoogleToken(token, clientSideClientId) {
   // Gracefully support local mock/development testing
   if (process.env.NODE_ENV !== 'production' && token.startsWith('mock-google-token-')) {
     const username = token.replace('mock-google-token-', '');
@@ -18,9 +18,9 @@ async function verifyGoogleToken(token) {
     };
   }
 
-  const clientId = process.env.GOOGLE_CLIENT_ID || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  const clientId = clientSideClientId || process.env.GOOGLE_CLIENT_ID || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   if (!clientId) {
-    throw new Error('GOOGLE_CLIENT_ID is not configured on the server. Please add it to your environment variables.');
+    throw new Error('GOOGLE_CLIENT_ID is not configured on the server. Please add it to your environment variables or supply it.');
   }
 
   const ticket = await client.verifyIdToken({
@@ -32,12 +32,12 @@ async function verifyGoogleToken(token) {
 
 export async function googleLogin(req, res) {
   try {
-    const { token } = req.body;
+    const { token, clientId } = req.body;
     if (!token) {
       return res.status(400).json({ error: 'Verification token is required.' });
     }
 
-    const payload = await verifyGoogleToken(token);
+    const payload = await verifyGoogleToken(token, clientId);
     const { email, name, picture } = payload;
 
     if (!email) {

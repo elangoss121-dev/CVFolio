@@ -6,9 +6,17 @@ import { useGoogleAuth } from './GoogleAuthContext';
 import Logo from './Logo';
 
 export default function Header() {
-  const { user, renderGoogleButton, logout, mockLogin, loading } = useGoogleAuth();
+  const { user, renderGoogleButton, logout, mockLogin, loading, googleClientId, updateClientId } = useGoogleAuth();
   const [showMockLogin, setShowMockLogin] = useState(false);
   const [mockName, setMockName] = useState('');
+  const [showConfigModal, setShowConfigModal] = useState(false);
+  const [inputClientId, setInputClientId] = useState('');
+
+  useEffect(() => {
+    if (googleClientId) {
+      setInputClientId(googleClientId);
+    }
+  }, [googleClientId]);
 
   useEffect(() => {
     if (!user) {
@@ -17,7 +25,7 @@ export default function Header() {
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [user, renderGoogleButton]);
+  }, [user, renderGoogleButton, googleClientId]);
 
   const handleMockSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,6 +74,25 @@ export default function Header() {
             </div>
           ) : (
             <div className="flex items-center gap-3">
+              {/* Google OAuth Configuration Settings Cog */}
+              <button
+                onClick={() => setShowConfigModal(true)}
+                title="Configure Google OAuth Client ID"
+                className="group relative flex h-10 w-10 items-center justify-center rounded-full border border-slate-800 bg-slate-950/30 text-slate-400 transition hover:border-slate-700 hover:bg-slate-900/50 hover:text-cyan-400"
+              >
+                <svg className="h-5 w-5 transition duration-500 group-hover:rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                {/* Visual glow indicator if a custom client ID is NOT configured yet */}
+                {!googleClientId && (
+                  <span className="absolute right-0 top-0 flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75"></span>
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-500"></span>
+                  </span>
+                )}
+              </button>
+
               {/* Dev/Mock Login Trigger */}
               {process.env.NODE_ENV !== 'production' && (
                 <div className="relative">
@@ -117,6 +144,108 @@ export default function Header() {
           )}
         </div>
       </div>
+
+      {/* Google OAuth Dynamic Configuration Modal */}
+      {showConfigModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/95 p-6 shadow-2xl shadow-cyan-950/50 backdrop-blur-xl animate-in zoom-in-95 duration-200">
+            {/* Glow Decorative Background Accent */}
+            <div className="absolute -right-24 -top-24 h-48 w-48 rounded-full bg-cyan-500/10 blur-3xl"></div>
+            <div className="absolute -left-24 -bottom-24 h-48 w-48 rounded-full bg-blue-500/5 blur-3xl"></div>
+
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+              <div>
+                <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
+                  <svg className="h-5 w-5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 3m0-3a2 2 0 110 3m-3.793-2.207l-1.414-1.414m1.414 1.414a2 2 0 112.828 2.828m-2.828-2.828a2 2 0 012.828 2.828m6.364-3.536l1.414-1.414m-1.414 1.414a2 2 0 11-2.828-2.828m2.828 2.828a2 2 0 01-2.828-2.828M12 14v2m0-2a2 2 0 100 3m0-3a2 2 0 110 3m-3.793 2.207l-1.414 1.414m1.414-1.414a2 2 0 112.828-2.828m-2.828 2.828a2 2 0 012.828-2.828m6.364 3.536l1.414 1.414m-1.414-1.414a2 2 0 11-2.828 2.828m2.828-2.828a2 2 0 01-2.828 2.828" />
+                  </svg>
+                  Google Sign-In Configuration
+                </h3>
+                <p className="mt-1 text-xs text-slate-400">Configure your personal Google OAuth Client ID to resolve login errors.</p>
+              </div>
+              <button
+                onClick={() => setShowConfigModal(false)}
+                className="rounded-full p-1.5 text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition"
+              >
+                <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Setup Instructions */}
+            <div className="my-5 max-h-[260px] overflow-y-auto pr-1 space-y-4 text-xs text-slate-300 scrollbar-thin scrollbar-thumb-slate-800">
+              <div>
+                <span className="font-semibold text-cyan-400">Quick 60-Second Setup Guide:</span>
+                <ol className="mt-2 list-decimal pl-4 space-y-2 text-slate-400">
+                  <li>Go to the <a href="https://console.cloud.google.com/" target="_blank" rel="noopener noreferrer" className="text-cyan-400 underline hover:text-cyan-300">Google Cloud Console</a>.</li>
+                  <li>Select your project, then open **APIs & Services &gt; Credentials**.</li>
+                  <li>Click **Create Credentials &gt; OAuth client ID**.</li>
+                  <li>Set the Application Type to **Web application**.</li>
+                  <li>Add this exact URL under **Authorized JavaScript Origins**:
+                    <div className="my-1 rounded-lg bg-slate-950 p-2 font-mono text-[10px] text-slate-300 select-all space-y-1">
+                      <div>http://localhost:3000</div>
+                      <div>{typeof window !== 'undefined' ? window.location.origin : 'https://your-domain.vercel.app'}</div>
+                    </div>
+                  </li>
+                  <li>Click **Create**, then copy your generated **Client ID** (ends with `.apps.googleusercontent.com`).</li>
+                </ol>
+              </div>
+
+              <div className="rounded-xl border border-slate-800/80 bg-slate-950/40 p-3">
+                <p className="font-medium text-slate-300 mb-1">💡 What does this do?</p>
+                <p className="text-slate-400 leading-relaxed text-[11px]">
+                  Pasting your Client ID here saves it securely in your browser&apos;s local storage. The system will use it instantly to display the correct Google Sign-In portal and login securely.
+                </p>
+              </div>
+            </div>
+
+            {/* Input Form */}
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-slate-400">Google OAuth Client ID</label>
+              <input
+                type="text"
+                placeholder="Pasted client ID ending in .apps.googleusercontent.com"
+                value={inputClientId}
+                onChange={(e) => setInputClientId(e.target.value)}
+                className="w-full rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 outline-none transition focus:border-cyan-500/80 focus:ring-1 focus:ring-cyan-500/40"
+              />
+            </div>
+
+            {/* Modal Actions */}
+            <div className="mt-6 flex justify-between gap-2 border-t border-slate-800/80 pt-4">
+              <button
+                onClick={() => {
+                  updateClientId(null);
+                  setInputClientId('');
+                  setShowConfigModal(false);
+                }}
+                className="rounded-xl border border-slate-800 bg-slate-950/40 px-4 py-2.5 text-xs font-semibold text-red-400 hover:border-red-500/30 hover:bg-red-500/5 transition"
+              >
+                Reset
+              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowConfigModal(false)}
+                  className="rounded-xl px-4 py-2.5 text-xs font-semibold text-slate-400 hover:text-slate-200 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    updateClientId(inputClientId);
+                    setShowConfigModal(false);
+                  }}
+                  className="rounded-xl bg-cyan-500 px-4 py-2.5 text-xs font-bold text-slate-950 hover:bg-cyan-400 transition shadow-lg shadow-cyan-500/10"
+                >
+                  Save Settings
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

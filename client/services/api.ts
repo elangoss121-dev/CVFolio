@@ -53,7 +53,7 @@ export const uploadAPI = {
 
 // Auth API
 export const authAPI = {
-  googleLogin: (token: string) => api.post('/auth/google', { token }),
+  googleLogin: (token: string, clientId?: string) => api.post('/auth/google', { token, clientId }),
 };
 
 // Keep legacy functions for compatibility
