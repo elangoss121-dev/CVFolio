@@ -31,6 +31,7 @@ interface GoogleAuthContextType {
   mockLogin: (username: string) => Promise<void>;
   googleClientId: string | null;
   updateClientId: (newClientId: string | null) => void;
+  hasClientId: boolean;
 }
 
 const GoogleAuthContext = createContext<GoogleAuthContextType | undefined>(undefined);
@@ -170,6 +171,9 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     localStorage.removeItem('cvfolio_user');
   };
 
+  const activeClientId = googleClientId || (typeof window !== 'undefined' ? localStorage.getItem('cvfolio_google_client_id') : null) || process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  const hasClientId = !!activeClientId && activeClientId !== '1048556942006-mock-client-id.apps.googleusercontent.com';
+
   return (
     <GoogleAuthContext.Provider
       value={{
@@ -182,6 +186,7 @@ export const GoogleAuthProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         mockLogin,
         googleClientId,
         updateClientId,
+        hasClientId,
       }}
     >
       {children}

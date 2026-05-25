@@ -6,11 +6,12 @@ import { useGoogleAuth } from './GoogleAuthContext';
 import Logo from './Logo';
 
 export default function Header() {
-  const { user, renderGoogleButton, logout, mockLogin, loading, googleClientId, updateClientId } = useGoogleAuth();
+  const { user, renderGoogleButton, logout, mockLogin, loading, googleClientId, updateClientId, hasClientId, loginError } = useGoogleAuth();
   const [showMockLogin, setShowMockLogin] = useState(false);
   const [mockName, setMockName] = useState('');
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [inputClientId, setInputClientId] = useState('');
+  const [errorDismissed, setErrorDismissed] = useState(false);
 
   useEffect(() => {
     if (googleClientId) {
@@ -19,13 +20,19 @@ export default function Header() {
   }, [googleClientId]);
 
   useEffect(() => {
-    if (!user) {
+    if (loginError) {
+      setErrorDismissed(false);
+    }
+  }, [loginError]);
+
+  useEffect(() => {
+    if (!user && hasClientId) {
       const timer = setTimeout(() => {
         renderGoogleButton('google-header-signin-btn');
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [user, renderGoogleButton, googleClientId]);
+  }, [user, renderGoogleButton, googleClientId, hasClientId]);
 
   const handleMockSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,14 +145,62 @@ export default function Header() {
                 </div>
               )}
 
-              {/* Official Google Login Button Container */}
-              <div id="google-header-signin-btn" className="h-10 min-w-[120px] overflow-hidden rounded-full"></div>
+              {/* Official Google Login or Simulated Button */}
+              {hasClientId ? (
+                <div id="google-header-signin-btn" className="h-10 min-w-[120px] overflow-hidden rounded-full"></div>
+              ) : (
+                <button
+                  onClick={() => setShowConfigModal(true)}
+                  className="flex h-10 items-center gap-2 rounded-full border border-slate-700 bg-white px-3.5 py-2 text-xs font-semibold text-slate-800 shadow-md hover:bg-slate-100 transition active:scale-95 duration-150"
+                  title="Configure Google OAuth Client ID to login"
+                >
+                  <svg className="h-4 w-4" viewBox="0 0 24 24">
+                    <path
+                      fill="#EA4335"
+                      d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.54 14.98 1 12 1 7.35 1 3.37 3.67 1.39 7.56l3.9 3.02c.92-2.78 3.52-4.54 6.71-4.54z"
+                    />
+                    <path
+                      fill="#4285F4"
+                      d="M23.49 12.27c0-.81-.07-1.59-.2-2.36H12v4.51h6.46c-.29 1.48-1.14 2.73-2.4 3.58l3.76 2.92c2.2-2.03 3.67-5.01 3.67-8.65z"
+                    />
+                    <path
+                      fill="#FBBC05"
+                      d="M5.29 14.42c-.25-.74-.39-1.53-.39-2.35s.14-1.61.39-2.35L1.39 6.7C.5 8.49 0 10.49 0 12.5s.5 4.01 1.39 5.8l3.9-3.08z"
+                    />
+                    <path
+                      fill="#34A853"
+                      d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.76-2.92c-1.08.72-2.46 1.16-4.2 1.16-3.19 0-5.79-1.76-6.71-4.54l-3.9 3.08C3.37 20.33 7.35 23 12 23z"
+                    />
+                  </svg>
+                  <span>Sign in with Google</span>
+                </button>
+              )}
             </div>
           )}
         </div>
       </div>
 
-      {/* Google OAuth Dynamic Configuration Modal */}
+      {/* Dynamic Authentication Error Toast / Alert Banner */}
+      {loginError && !errorDismissed && (
+        <div className="border-t border-red-500/20 bg-red-500/10 px-6 py-2">
+          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 text-xs text-red-400 font-medium animate-in slide-in-from-top-1 duration-200">
+            <span className="flex items-center gap-1.5">
+              <svg className="h-4 w-4 shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              Google Auth Error: {loginError}
+            </span>
+            <button
+              onClick={() => setErrorDismissed(true)}
+              className="text-red-400/80 hover:text-red-300 hover:bg-red-500/10 rounded p-1 transition animate-hover-pulse"
+            >
+              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
       {showConfigModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-md animate-in fade-in duration-200">
           <div className="relative w-full max-w-lg overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/95 p-6 shadow-2xl shadow-cyan-950/50 backdrop-blur-xl animate-in zoom-in-95 duration-200">
