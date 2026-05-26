@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { GoogleAuthProvider } from '../components/GoogleAuthContext';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   title: 'CVFolio',
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="bg-slate-950 text-slate-100 antialiased">
         <GoogleAuthProvider>{children}</GoogleAuthProvider>
+        <Analytics />
       </body>
     </html>
   );
